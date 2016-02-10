@@ -37,7 +37,7 @@ The basic installaiton steps are as follows:
 
 - [] 1 add this in your project.json:
 
-    "cloudscribe.Web.SimpleAuth": "1.0.0-*
+        "cloudscribe.Web.SimpleAuth": "1.0.0-*
 	
 Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.nuget.org/packages/cloudscribe.Web.SimpleAuth), but you can also run dnu restore from the command line in the solution or project folder.
 
@@ -45,7 +45,7 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 
 - [] 3 add this using statement to the top of your Startup.cs
 
-    using cloudscribe.Web.SimpleAuth.Models;
+        using cloudscribe.Web.SimpleAuth.Models;
 	using Microsoft.Extensions.OptionsModel;
 	using Microsoft.AspNet.Identity; // this is only used for the password hasher
 
