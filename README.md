@@ -46,28 +46,28 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 - [] 3 add this using statement to the top of your Startup.cs
 
         using cloudscribe.Web.SimpleAuth.Models;
-	using Microsoft.Extensions.OptionsModel;
-	using Microsoft.AspNet.Identity; // this is only used for the password hasher
+        using Microsoft.Extensions.OptionsModel;
+        using Microsoft.AspNet.Identity; // this is only used for the password hasher
 
 - [] 4 add this in the StartupMethod of your Startup.cs
 
-    builder.AddJsonFile("simpleauthsettings.json", optional: true);
+        builder.AddJsonFile("simpleauthsettings.json", optional: true);
 
 - [] 5 add this in the ConfigureServices method of your Startup.cs
 
-    services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
-    services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
-    services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
+        services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
+        services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
+        services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
 	
 - [] 6 change the signature of the Configure method in your Startup.cs so the DI can inject the SimpleAuthSettings accessor into that method
 
-    public void Configure(
-            IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory,
-            IOptions<SimpleAuthSettings> authSettingsAccessor  
-            )
-	{
+        public void Configure(
+                IApplicationBuilder app, 
+                IHostingEnvironment env, 
+                ILoggerFactory loggerFactory,
+                IOptions<SimpleAuthSettings> authSettingsAccessor  
+                )
+	 {
 	    ...
 		
 		// Add cookie-based authentication to the request pipeline
@@ -92,7 +92,7 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 		// make sure authentication is configured before MVC
 		app.UseMvc();
 		
-	}
+	    }
 	
 	
 		
@@ -105,7 +105,7 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 In future releases when nuget supports it, we will either include the views in the package or create a separate apckage for views, but for now you just have to copy them from the example site.
 
 
-![Alt text](/images/screenshot-simleauth-with-recaptcha.jpg?raw=true)
+![Screenshot](/images/screenshot-simleauth-with-recaptcha.jpg?raw=true)
 
 
 ##### Keep In Touch
