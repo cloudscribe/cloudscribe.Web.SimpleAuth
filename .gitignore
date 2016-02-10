@@ -234,3 +234,11 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+
+src/cloudscribe.Web.Navigation/project.lock.json
+**/wwwroot/lib*
+
+
+# src/NavigationDemo.Web/project.lock.json
+# test/cloudscribe.Web.Navigation.Test/project.lock.json
