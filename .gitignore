@@ -242,3 +242,4 @@ src/cloudscribe.Web.Navigation/project.lock.json
 
 # src/NavigationDemo.Web/project.lock.json
 # test/cloudscribe.Web.Navigation.Test/project.lock.json
+src/example.WebApp/appsettings.local.overrides.json
