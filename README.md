@@ -2,8 +2,8 @@
 
 Simple Authentication for ASP.NET Core - because sometimes less is more
 
-#### You should not use SimpleAuth if your any of these requirements apply to you application or website project:
-* You need more than a very small number of users need to be able to authenticate on the site
+#### You should not use SimpleAuth if any of these requirements apply to you application or website project:
+* You need more than a very small number of users to be able to authenticate on the site
 * You need users to be able to self register using a registration page
 
 If either of the above are true of your project then you should probably look at these other projects instead of SimpleAuth:
@@ -15,7 +15,7 @@ If either of the above are true of your project then you should probably look at
 #### So what scenarios is SimpleAuth good for?
 * Personal sites or blogs where only one or a few people need to login
 * Brochure sites where only one or a few people need to login
-* Demo sites or prototypes where you only need a few users to beable to login
+* Demo sites or prototypes where you only need a few users to be able to login
 
 #### What is the value proposition?
 * No database required for user accounts
@@ -35,31 +35,31 @@ The example.WebApp project in this solution is the best guide to setup and confi
 
 The basic installaiton steps are as follows:
 
-1 add this in your project.json:
+- [] 1 add this in your project.json:
 
     "cloudscribe.Web.SimpleAuth": "1.0.0-*
 	
 Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.nuget.org/packages/cloudscribe.Web.SimpleAuth), but you can also run dnu restore from the command line in the solution or project folder.
 
-2 copy the simpleauthsettings.json file from the example.WebApp project into your own and use it to configure settings and users
+- [] 2 copy the simpleauthsettings.json file from the example.WebApp project into your own and use it to configure settings and users
 
-3 add this using statement to the top of your Startup.cs
+###### 3 add this using statement to the top of your Startup.cs
 
     using cloudscribe.Web.SimpleAuth.Models;
 	using Microsoft.Extensions.OptionsModel;
 	using Microsoft.AspNet.Identity; // this is only used for the password hasher
 
-4 add this in the StartupMethod of your Startup.cs
+###### 4 add this in the StartupMethod of your Startup.cs
 
     builder.AddJsonFile("simpleauthsettings.json", optional: true);
 
-5 add this in the ConfigureServices method of your Startup.cs
+###### 5 add this in the ConfigureServices method of your Startup.cs
 
     services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
     services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
     services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
 	
-6 change the signature of the Configure method in your Startup.cs so the DI can inject the SimpleAuthSettings accessor into that method
+###### 6 change the signature of the Configure method in your Startup.cs so the DI can inject the SimpleAuthSettings accessor into that method
 
     public void Configure(
             IApplicationBuilder app, 
@@ -96,11 +96,11 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 	
 	
 		
-7 copy the Views/Login folder from the example.WebApp project into your own project
+###### 7 copy the Views/Login folder from the example.WebApp project into your own project
 
-8 study the example.WebApp for examples of how to configure authorization policies with roles that you configure for users in the simpleauthsettings.json file
+###### 8 study the example.WebApp for examples of how to configure authorization policies with roles that you configure for users in the simpleauthsettings.json file
 
-9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
+###### 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
 
 In future releases when nuget supports it, we will either include the views in the package or create a separate apckage for views, but for now you just have to copy them from the example site.
 
