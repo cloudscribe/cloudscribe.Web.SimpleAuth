@@ -2,7 +2,7 @@
 
 Simple Authentication for ASP.NET Core - because sometimes less is more
 
-#### You should not use SimpleAuth if any of these requirements apply to you application or website project:
+#### You should not use SimpleAuth if any of these requirements apply to your web application or website project:
 * You need more than a very small number of users to be able to authenticate on the site
 * You need users to be able to self register using a registration page
 
