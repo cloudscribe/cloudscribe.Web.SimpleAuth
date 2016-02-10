@@ -29,7 +29,7 @@ If either of the above are true of your project then you should probably look at
 * Very simple implementation without many moving parts
 
 
-#### Installation
+#### Installation - Currently supports RC1 of ASP.NET Core
 
 The example.WebApp project in this solution is the best guide to setup and configuration, I've added some comments in the Startup.cs that should be useful, and if you have any trouble setting it up in your app, you can compare against the demo to see what is missing or different. Note that the example.WebApp also uses cloudscribe.Navigation for the menu, and you may also want to use it.
 
@@ -102,7 +102,7 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 
 - [] 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
 
-In future releases when nuget supports it, we will either include the views in the package or create a separate apckage for views, but for now you just have to copy them from the example site.
+In future releases when nuget supports it, we will either include the views in the package or create a separate package for views, but for now you just have to copy them from the example site.
 
 
 ![Screenshot](/images/screenshot-simleauth-with-recaptcha.jpg?raw=true)
@@ -110,7 +110,7 @@ In future releases when nuget supports it, we will either include the views in t
 
 ##### Keep In Touch
 
-If you are interested in hiring me for consulting or other support services related to cloudscribe web components, please send an email to info [at] cloudscribe.com.
+If you are interested in hiring me for consulting or other support services related to the cloudscribe set of projects, please send an email to info [at] cloudscribe.com.
 
 If you have questions or just want to be social, say hello in our gitter chat room. I try to monitor that room on a regular basis while I'm working, but if I'm not around you can leave a message.
 
