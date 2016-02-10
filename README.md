@@ -43,23 +43,23 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 
 - [] 2 copy the simpleauthsettings.json file from the example.WebApp project into your own and use it to configure settings and users
 
-###### 3 add this using statement to the top of your Startup.cs
+- [] 3 add this using statement to the top of your Startup.cs
 
     using cloudscribe.Web.SimpleAuth.Models;
 	using Microsoft.Extensions.OptionsModel;
 	using Microsoft.AspNet.Identity; // this is only used for the password hasher
 
-###### 4 add this in the StartupMethod of your Startup.cs
+- [] 4 add this in the StartupMethod of your Startup.cs
 
     builder.AddJsonFile("simpleauthsettings.json", optional: true);
 
-###### 5 add this in the ConfigureServices method of your Startup.cs
+- [] 5 add this in the ConfigureServices method of your Startup.cs
 
     services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
     services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
     services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
 	
-###### 6 change the signature of the Configure method in your Startup.cs so the DI can inject the SimpleAuthSettings accessor into that method
+- [] 6 change the signature of the Configure method in your Startup.cs so the DI can inject the SimpleAuthSettings accessor into that method
 
     public void Configure(
             IApplicationBuilder app, 
@@ -96,11 +96,11 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 	
 	
 		
-###### 7 copy the Views/Login folder from the example.WebApp project into your own project
+- [] 7 copy the Views/Login folder from the example.WebApp project into your own project
 
-###### 8 study the example.WebApp for examples of how to configure authorization policies with roles that you configure for users in the simpleauthsettings.json file
+- [] 8 study the example.WebApp for examples of how to configure authorization policies with roles that you configure for users in the simpleauthsettings.json file
 
-###### 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
+- [] 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
 
 In future releases when nuget supports it, we will either include the views in the package or create a separate apckage for views, but for now you just have to copy them from the example site.
 
