@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -37,7 +38,8 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
 
         private SignInManager signinManager;
         private ILogger log;
-        
+        private CancellationToken CancellationToken => HttpContext?.RequestAborted ?? CancellationToken.None;
+
         // GET: /Login/index
         [HttpGet]
         [AllowAnonymous]
@@ -87,7 +89,10 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
 
             }
 
-            var authUser = signinManager.GetUser(model.UserName);
+            var authUser = await signinManager.GetUser(
+                model.UserName,
+                CancellationToken
+                );
 
             if(authUser == null)
             {
@@ -95,7 +100,11 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
                 return View(model);
             }
 
-            var isValid = signinManager.ValidatePassword(authUser, model.Password);
+            var isValid = await signinManager.ValidatePassword(
+                authUser, 
+                model.Password,
+                CancellationToken
+                );
 
             if(!isValid)
             {
@@ -107,7 +116,9 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             var authProperties = new AuthenticationProperties();
             authProperties.IsPersistent = model.RememberMe;
 
-            var claimsPrincipal = signinManager.GetClaimsPrincipal(authUser);
+            var claimsPrincipal = await signinManager.GetClaimsPrincipal(
+                authUser,
+                CancellationToken);
             
             await HttpContext.Authentication.SignInAsync(
                 signinManager.AuthSettings.AuthenticationScheme, 
