@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-02-09
-// Last Modified:           2016-02-09
+// Last Modified:           2016-02-15
 // 
 
 
 using cloudscribe.Web.SimpleAuth.Models;
 using cloudscribe.Web.SimpleAuth.ViewModels;
+using cloudscribe.Web.SimpleAuth.Services;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Http.Authentication;
@@ -27,25 +28,17 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
     public class LoginController : Controller
     {
         public LoginController(
-            IOptions<SimpleAuthSettings> settingsAccessor,
-            IOptions<List<SimpleAuthUser>> usersAccessor,
-            IPasswordHasher<SimpleAuthUser> passwordHasher,
+            SignInManager signinManager,
             ILogger<LoginController> logger)
         {
-            authSettings = settingsAccessor.Value;
-            allUsers = usersAccessor.Value;
-            this.passwordHasher = passwordHasher;
+            this.signinManager = signinManager;
             log = logger;
         }
 
-        private SimpleAuthSettings authSettings;
-        private IPasswordHasher<SimpleAuthUser> passwordHasher;
-        private List<SimpleAuthUser> allUsers;
+        private SignInManager signinManager;
         private ILogger log;
-
-
-        //SimpleAuthSettings
-        // GET: /Account/index
+        
+        // GET: /Login/index
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Index()
@@ -54,16 +47,16 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
 
             var model = new LoginViewModel();
 
-            if (!string.IsNullOrEmpty(authSettings.RecaptchaPublicKey))
+            if (!string.IsNullOrEmpty(signinManager.AuthSettings.RecaptchaPublicKey))
             {
-                model.RecaptchaSiteKey = authSettings.RecaptchaPublicKey;
+                model.RecaptchaSiteKey = signinManager.AuthSettings.RecaptchaPublicKey;
             }
 
             return View(model);
         }
 
-        //
-        // POST: /Account/Login
+        
+        // POST: /Login/Index
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -71,9 +64,9 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
         {
             ViewData["Title"] = "Log in";
             
-            if(!string.IsNullOrEmpty(authSettings.RecaptchaPublicKey))
+            if(!string.IsNullOrEmpty(signinManager.AuthSettings.RecaptchaPublicKey))
             {
-                model.RecaptchaSiteKey = authSettings.RecaptchaPublicKey;
+                model.RecaptchaSiteKey = signinManager.AuthSettings.RecaptchaPublicKey;
             }
 
             if (!ModelState.IsValid)
@@ -81,9 +74,9 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
                 return View(model);
             }
 
-            if (!string.IsNullOrEmpty(authSettings.RecaptchaPublicKey))
+            if (!string.IsNullOrEmpty(signinManager.AuthSettings.RecaptchaPublicKey))
             {
-                var recpatchaSecretKey = authSettings.RecaptchaPrivateKey;
+                var recpatchaSecretKey = signinManager.AuthSettings.RecaptchaPrivateKey;
                 var captchaResponse = await ValidateRecaptcha(Request, recpatchaSecretKey);
 
                 if (!captchaResponse.Success)
@@ -94,7 +87,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
 
             }
 
-            var authUser = GetUser(model.UserName);
+            var authUser = signinManager.GetUser(model.UserName);
 
             if(authUser == null)
             {
@@ -102,7 +95,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
                 return View(model);
             }
 
-            var isValid = ValidatePassword(authUser, model.Password);
+            var isValid = signinManager.ValidatePassword(authUser, model.Password);
 
             if(!isValid)
             {
@@ -114,10 +107,10 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             var authProperties = new AuthenticationProperties();
             authProperties.IsPersistent = model.RememberMe;
 
-            var claimsPrincipal = GetClaimsPrincipal(authUser);
+            var claimsPrincipal = signinManager.GetClaimsPrincipal(authUser);
             
             await HttpContext.Authentication.SignInAsync(
-                authSettings.AuthenticationScheme, 
+                signinManager.AuthSettings.AuthenticationScheme, 
                 claimsPrincipal, 
                 authProperties);
             
@@ -129,7 +122,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
         [AllowAnonymous]
         public IActionResult HashPassword()
         {
-            if (!authSettings.EnablePasswordHasherUi)
+            if (!signinManager.AuthSettings.EnablePasswordHasherUi)
             {
                 log.LogInformation("returning 404 because EnablePasswordHasherUi is false");
                 Response.StatusCode = 404;
@@ -145,7 +138,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
         [AllowAnonymous]
         public IActionResult HashPassword(HashPasswordViewModel model)
         {
-            if (!authSettings.EnablePasswordHasherUi)
+            if (!signinManager.AuthSettings.EnablePasswordHasherUi)
             {
                 log.LogInformation("returning 404 because EnablePasswordHasherUi is false");
                 Response.StatusCode = 404;
@@ -155,46 +148,23 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             if (model.InputPassword.Length > 0)
             {
                 var fakeUser = new SimpleAuthUser();
-                model.OutputHash = passwordHasher.HashPassword(fakeUser, model.InputPassword);
+                model.OutputHash = signinManager.HashPassword(model.InputPassword);
             }
 
             return View(model);
         }
 
 
-        // POST: /Account/LogOff
+        // POST: /Login/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
-            await HttpContext.Authentication.SignOutAsync(authSettings.AuthenticationScheme);
+            await HttpContext.Authentication.SignOutAsync(signinManager.AuthSettings.AuthenticationScheme);
  
             return LocalRedirect("/");
         }
-
-        private bool ValidatePassword(SimpleAuthUser authUser, string providedPassword)
-        {
-            if (authUser.PasswordIsHashed)
-            {
-                var result = passwordHasher.VerifyHashedPassword(authUser, authUser.Password, providedPassword);   
-                return (result == PasswordVerificationResult.Success);
-            }
-            else
-            {
-                return authUser.Password == providedPassword;
-            }
-
-        }
-
-        private SimpleAuthUser GetUser(string userName)
-        {
-            foreach (SimpleAuthUser u in allUsers)
-            {
-                if (u.UserName == userName) { return u; }
-            }
-
-            return null;
-        }
+        
 
         private async Task<RecaptchaResponse> ValidateRecaptcha(
             HttpRequest request,
@@ -213,29 +183,6 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             return captchaResponse;
         }
 
-        private ClaimsPrincipal GetClaimsPrincipal(SimpleAuthUser authUser)
-        {
-            var identity = new ClaimsIdentity(authSettings.AuthenticationScheme);
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "1"));
-            identity.AddClaim(new Claim(ClaimTypes.Name, authUser.UserName));
-
-            foreach(SimpleAuthClaim c in authUser.Claims)
-            {
-                if(c.ClaimType == "Email")
-                {
-                    identity.AddClaim(new Claim(ClaimTypes.Email, c.ClaimValue));
-                }
-                else if (c.ClaimType == "Role")
-                {
-                    identity.AddClaim(new Claim(ClaimTypes.Role, c.ClaimValue));
-                }
-                else
-                {
-                    identity.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
-                }
-            }
-            
-            return new ClaimsPrincipal(identity);
-        }
+    
     }
 }
