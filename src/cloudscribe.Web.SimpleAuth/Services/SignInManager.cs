@@ -6,19 +6,11 @@
 // 
 
 using cloudscribe.Web.SimpleAuth.Models;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace cloudscribe.Web.SimpleAuth.Services
 {
@@ -46,24 +38,17 @@ namespace cloudscribe.Web.SimpleAuth.Services
             get { return authSettings; }
         }
 
-        public Task<SimpleAuthUser> GetUser(
-            string userName,
-            CancellationToken cancellationToken
-            )
+        public SimpleAuthUser GetUser(string userName)
         {
             foreach (SimpleAuthUser u in allUsers)
             {
-                if (u.UserName == userName) { return Task.FromResult(u); }
+                if (u.UserName == userName) { return u; }
             }
 
             return null;
         }
 
-        public Task<bool> ValidatePassword(
-            SimpleAuthUser authUser, 
-            string providedPassword,
-            CancellationToken cancellationToken
-            )
+        public bool ValidatePassword(SimpleAuthUser authUser, string providedPassword)
         {
             bool result = false;
             if (authUser.PasswordIsHashed)
@@ -77,13 +62,10 @@ namespace cloudscribe.Web.SimpleAuth.Services
                 result = authUser.Password == providedPassword;
             }
 
-            return Task.FromResult(result);
+            return result;
         }
 
-        public Task<ClaimsPrincipal> GetClaimsPrincipal(
-            SimpleAuthUser authUser,
-            CancellationToken cancellationToken
-            )
+        public ClaimsPrincipal GetClaimsPrincipal(SimpleAuthUser authUser)
         {
             var identity = new ClaimsIdentity(authSettings.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "1"));
@@ -107,7 +89,7 @@ namespace cloudscribe.Web.SimpleAuth.Services
 
             var prince = new ClaimsPrincipal(identity);
 
-            return Task.FromResult(prince);
+            return prince;
         }
 
         public string HashPassword(string inputPassword)

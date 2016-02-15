@@ -38,8 +38,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
 
         private SignInManager signinManager;
         private ILogger log;
-        private CancellationToken CancellationToken => HttpContext?.RequestAborted ?? CancellationToken.None;
-
+        
         // GET: /Login/index
         [HttpGet]
         [AllowAnonymous]
@@ -89,10 +88,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
 
             }
 
-            var authUser = await signinManager.GetUser(
-                model.UserName,
-                CancellationToken
-                );
+            var authUser = signinManager.GetUser(model.UserName);
 
             if(authUser == null)
             {
@@ -100,11 +96,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
                 return View(model);
             }
 
-            var isValid = await signinManager.ValidatePassword(
-                authUser, 
-                model.Password,
-                CancellationToken
-                );
+            var isValid = signinManager.ValidatePassword(authUser,  model.Password);
 
             if(!isValid)
             {
@@ -116,9 +108,8 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             var authProperties = new AuthenticationProperties();
             authProperties.IsPersistent = model.RememberMe;
 
-            var claimsPrincipal = await signinManager.GetClaimsPrincipal(
-                authUser,
-                CancellationToken);
+            var claimsPrincipal = signinManager.GetClaimsPrincipal(
+                authUser);
             
             await HttpContext.Authentication.SignInAsync(
                 signinManager.AuthSettings.AuthenticationScheme, 
