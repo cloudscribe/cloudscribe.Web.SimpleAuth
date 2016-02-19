@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-02-15
-// Last Modified:           2016-02-15
+// Last Modified:           2016-02-19
 // 
 
 using cloudscribe.Web.SimpleAuth.Models;
@@ -18,19 +18,22 @@ namespace cloudscribe.Web.SimpleAuth.Services
     {
         public SignInManager(
             IOptions<SimpleAuthSettings> settingsAccessor,
-            IOptions<List<SimpleAuthUser>> usersAccessor,
+            //IOptions<List<SimpleAuthUser>> usersAccessor,
+            IUserLookupProvider userLookupProvider,
             IPasswordHasher<SimpleAuthUser> passwordHasher,
             ILogger<SignInManager> logger)
         {
             authSettings = settingsAccessor.Value;
-            allUsers = usersAccessor.Value;
+            userRepo = userLookupProvider;
+            //allUsers = usersAccessor.Value;
             this.passwordHasher = passwordHasher;
             log = logger;
         }
 
+        private IUserLookupProvider userRepo;
         private SimpleAuthSettings authSettings;
         private IPasswordHasher<SimpleAuthUser> passwordHasher;
-        private List<SimpleAuthUser> allUsers;
+        //private List<SimpleAuthUser> allUsers;
         private ILogger log;
 
         public SimpleAuthSettings AuthSettings
@@ -40,12 +43,7 @@ namespace cloudscribe.Web.SimpleAuth.Services
 
         public SimpleAuthUser GetUser(string userName)
         {
-            foreach (SimpleAuthUser u in allUsers)
-            {
-                if (u.UserName == userName) { return u; }
-            }
-
-            return null;
+            return userRepo.GetUser(userName);
         }
 
         public bool ValidatePassword(SimpleAuthUser authUser, string providedPassword)

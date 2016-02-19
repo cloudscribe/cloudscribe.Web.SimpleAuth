@@ -1,5 +1,5 @@
 ﻿
-
+using cloudscribe.Web.SimpleAuth.Services;
 using cloudscribe.Web.Navigation;
 using cloudscribe.Web.SimpleAuth.Models;
 using Microsoft.AspNet.Authentication.Cookies;
@@ -8,6 +8,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Http.Internal;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -63,12 +64,17 @@ namespace example.WebApp
             // see this method below and configure your security policy
             ConfigureAuthPolicy(services);
 
+            services.Configure<MultiTenancyOptions>(Configuration.GetSection("MultiTenancy"));
+            services.AddMultitenancy<AppTenant, CachingAppTenantResolver>();
             // Hosting doesn't add IHttpContextAccessor by default
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
+            //services.AddScoped<IUserLookupProvider, DefaultUserLookupProvider>(); // single tenant
+            services.AddScoped<IUserLookupProvider, AppTenantUserLookupProvider>();
             services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
             services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
+            services.AddScoped<SignInManager, SignInManager>();
 
 
             // this demo is also using the cloudscribe.Web.Navigation library
@@ -82,9 +88,15 @@ namespace example.WebApp
             services.AddScoped<INavigationCacheKeyResolver, DefaultNavigationCacheKeyResolver>();
 
 
+
             services.AddMvc();
 
-            
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
+            });
+
+
         }
 
         
@@ -115,6 +127,8 @@ namespace example.WebApp
             
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
             app.UseStaticFiles();
+
+            app.UseMultitenancy<AppTenant>();
 
             // Add cookie-based authentication to the request pipeline
 

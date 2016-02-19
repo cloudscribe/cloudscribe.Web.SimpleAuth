@@ -6,6 +6,7 @@
   "dependencies": {
     "cloudscribe.Web.SimpleAuth": "1.0.0-*",
     "cloudscribe.Web.Navigation": "1.0.0-*",
+    "SaasKit.Multitenancy": "1.0.0-*",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-rc1-final",
@@ -29,10 +30,13 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final"
   },
 
-  "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel"
-   
-  },
+    "commands": {
+        "web": "Microsoft.AspNet.Server.Kestrel",
+        "alltenants": "Microsoft.AspNet.Server.Kestrel --server.urls=http://localhost:60000;http://localhost:60001;http://localhost:60002",
+        "joetenants": "Microsoft.AspNet.Server.Kestrel --server.urls=http://tenant1.local:60000;http://tenant2.local:60002"
+
+
+    },
 
   "frameworks": {
     "dnx451": { },
