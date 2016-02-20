@@ -19,6 +19,7 @@ If either of the above are true of your project then you should probably look at
 
 #### What is the value proposition?
 * No database required for user accounts
+* Supports multiple tenants based on host name
 * Easy configuration - settings and users are stored in a simple json configuration file
 * Built in support for [Recaptcha](https://www.google.com/recaptcha/intro/index.html) -just add your keys in configuration
 * Supports custom role and claims configuration for use with [custom authorization policies](https://docs.asp.net/en/latest/security/authorization/policies.html)
