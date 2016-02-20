@@ -17,6 +17,10 @@
                     "localhost:60011"
                 ],
                 "Theme": "Cerulean",
+                "EnablePasswordHasherUi": "true",
+                "RecaptchaPublicKey": "",
+                "RecaptchaPrivateKey": "",
+                "AuthenticationScheme": "application",
                 "Users": [
                     {
                         "UserName": "admin",
@@ -68,6 +72,10 @@
                     "tenant2.local:60002"
                 ],
                 "Theme": "Darkly",
+                "EnablePasswordHasherUi": "true",
+                "RecaptchaPublicKey": "",
+                "RecaptchaPrivateKey": "",
+                "AuthenticationScheme": "application",
                 "Users": [
                     {
                         "UserName": "admin",

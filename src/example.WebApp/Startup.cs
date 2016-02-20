@@ -74,6 +74,8 @@ namespace example.WebApp
             services.AddScoped<IUserLookupProvider, AppTenantUserLookupProvider>();
             services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
             services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
+            //services.AddScoped<IAuthSettingsResolver, DefaultAuthSettingsResolver>();
+            services.AddScoped<IAuthSettingsResolver, AppTenantAuthSettingsResolver>();
             services.AddScoped<SignInManager, SignInManager>();
 
 
