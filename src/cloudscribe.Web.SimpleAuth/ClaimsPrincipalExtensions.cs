@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2016-02-09
-// Last Modified:			2016-02-09
+// Last Modified:			2016-02-20
 // 
 
 using System;
@@ -19,6 +19,16 @@ namespace cloudscribe.Web.SimpleAuth.Extensions
                 throw new ArgumentNullException(nameof(principal));
             }
             var claim = principal.FindFirst("DisplayName");
+            return claim != null ? claim.Value : null;
+        }
+
+        public static string GetEmail(this ClaimsPrincipal principal)
+        {
+            if (principal == null)
+            {
+                throw new ArgumentNullException(nameof(principal));
+            }
+            var claim = principal.FindFirst(ClaimTypes.Email);
             return claim != null ? claim.Value : null;
         }
     }
