@@ -1,6 +1,7 @@
 ﻿
 using cloudscribe.Web.SimpleAuth.Services;
 using cloudscribe.Web.Navigation;
+using cloudscribe.Web.Navigation.Caching;
 using cloudscribe.Web.SimpleAuth.Models;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
@@ -81,14 +82,13 @@ namespace example.WebApp
 
             // this demo is also using the cloudscribe.Web.Navigation library
             //https://github.com/joeaudette/cloudscribe.Web.Navigation
+            services.TryAddScoped<ITreeCache, MemoryTreeCache>();
             services.AddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
+            services.AddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
             services.AddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
             services.AddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
             services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
-            services.Configure<DistributedCacheNavigationTreeBuilderOptions>(Configuration.GetSection("DistributedCacheNavigationTreeBuilderOptions"));
-            services.Configure<MemoryCacheNavigationTreeBuilderOptions>(Configuration.GetSection("MemoryCacheNavigationTreeBuilderOptions"));
-            services.AddScoped<INavigationCacheKeyResolver, DefaultNavigationCacheKeyResolver>();
-
+            
 
 
             services.AddMvc();
@@ -134,22 +134,48 @@ namespace example.WebApp
 
             // Add cookie-based authentication to the request pipeline
 
-            SimpleAuthSettings authSettings = authSettingsAccessor.Value;
+            //SimpleAuthSettings authSettings = authSettingsAccessor.Value;
 
-            var ApplicationCookie = new CookieAuthenticationOptions
+            //var ApplicationCookie = new CookieAuthenticationOptions
+            //{
+            //    AuthenticationScheme = authSettings.AuthenticationScheme,
+            //    CookieName = authSettings.AuthenticationScheme,
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true,
+            //    LoginPath = new PathString("/Login/Index"),
+            //    Events = new CookieAuthenticationEvents
+            //    {
+            //        //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+            //    }
+            //};
+
+            //app.UseCookieAuthentication(ApplicationCookie);
+
+            app.UsePerTenant<AppTenant>((ctx, builder) =>
             {
-                AuthenticationScheme = authSettings.AuthenticationScheme,
-                CookieName = authSettings.AuthenticationScheme,
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                LoginPath = new PathString("/Login/Index"),
-                Events = new CookieAuthenticationEvents
+                builder.UseCookieAuthentication(options =>
                 {
-                    //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-                }
-            };
-            
-            app.UseCookieAuthentication(ApplicationCookie);
+                    options.AuthenticationScheme = ctx.Tenant.AuthenticationScheme;
+                    options.LoginPath = new PathString("/account/login");
+                    options.AccessDeniedPath = new PathString("/account/forbidden");
+                    options.AutomaticAuthenticate = true;
+                    options.AutomaticChallenge = true;
+                    options.CookieName = $"{ctx.Tenant.Id}.application";
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+                    };
+                });
+
+                //builder.UseGoogleAuthentication(options =>
+                //{
+                //    options.AuthenticationScheme = "Google";
+                //    options.SignInScheme = "Cookies";
+
+                //    options.ClientId = Configuration[$"{ctx.Tenant.Id}:GoogleClientId"];
+                //    options.ClientSecret = Configuration[$"{ctx.Tenant.Id}:GoogleClientSecret"];
+                //});
+            });
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>

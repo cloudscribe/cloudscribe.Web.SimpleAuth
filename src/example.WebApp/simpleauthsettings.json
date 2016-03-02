@@ -10,6 +10,7 @@
     "MultiTenancy": {
         "Tenants": [
             {
+                "Id":"tenant1",
                 "Name": "sample site",
                 "Hostnames": [
                     "localhost:60000",
@@ -66,6 +67,7 @@
                 ]
             },
             {
+                "Id": "tenant2",
                 "Name": "darkly industries",
                 "Hostnames": [
                     "localhost:60002",
