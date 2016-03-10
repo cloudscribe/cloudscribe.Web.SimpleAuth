@@ -10,9 +10,13 @@ or you can test 2 tenants at once using
 
 dnx alltenents
 
-the command window will tell you the web app is listening
-http://localhost:60000 is tenant 1 open it in your browser
-http://localhost:60002 is tenant 2 open it in your browser
+the command window will tell you the urls where the web app is listening
+
+open tenant 1 in your browser at
+http://localhost:60000 
+
+open tenant 2 in your browser at
+http://localhost:60002 
 
 tip: you can see the "alltenants" command in the project.json
 
