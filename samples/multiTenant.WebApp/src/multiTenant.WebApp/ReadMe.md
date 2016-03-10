@@ -1,6 +1,6 @@
 ﻿#Multi Tenant Demo instructions
 
-in windows explorer right click the project folder "multiTenant.WebApp" and choose "open command windows here"
+in windows explorer control-shift-right click the project folder "multiTenant.WebApp" and choose "open command windows here"
 
 you can test a simple tenant using the normal web command ie
 
