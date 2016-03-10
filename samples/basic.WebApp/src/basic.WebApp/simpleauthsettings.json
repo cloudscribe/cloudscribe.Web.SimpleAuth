@@ -1,0 +1,54 @@
+﻿{
+    "SimpleAuthSettings": {
+        "EnablePasswordHasherUi": "true",
+        "RecaptchaPublicKey": "",
+        "RecaptchaPrivateKey": "",
+        "AuthenticationScheme": "application"
+
+    },
+
+    "Users": [
+        {
+            "UserName": "admin",
+            "Password": "admin",
+            "PasswordIsHashed": "false",
+            "Claims": [
+                {
+                    "ClaimType": "DisplayName",
+                    "ClaimValue": "Mr Cool!"
+                },
+                {
+                    "ClaimType": "Email",
+                    "ClaimValue": "foo@foo.org"
+                },
+                {
+                    "ClaimType": "Role",
+                    "ClaimValue": "Admins"
+                }
+
+            ]
+        },
+        {
+            "UserName": "demo",
+            "Password": "demo",
+            "PasswordIsHashed": "false",
+            "Claims": [
+                {
+                    "ClaimType": "DisplayName",
+                    "ClaimValue": "Mr Awesome"
+                },
+                {
+                    "ClaimType": "Email",
+                    "ClaimValue": "demo@demo.com"
+                },
+                {
+                    "ClaimType": "Role",
+                    "ClaimValue": "Admins"
+                }
+
+            ]
+        }
+    ]
+
+
+}
