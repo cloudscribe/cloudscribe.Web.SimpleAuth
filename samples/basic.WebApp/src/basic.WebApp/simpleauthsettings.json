@@ -1,6 +1,7 @@
 ﻿{
     "SimpleAuthSettings": {
         "EnablePasswordHasherUi": "true",
+        "Comment-Recaptcha": "get your recaptcha keys here https://www.google.com/recaptcha/intro/index.html",
         "RecaptchaPublicKey": "",
         "RecaptchaPrivateKey": "",
         "AuthenticationScheme": "application"
