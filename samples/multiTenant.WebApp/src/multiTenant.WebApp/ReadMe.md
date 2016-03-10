@@ -20,21 +20,19 @@ http://localhost:60002
 
 tip: you can see the "alltenants" command in the project.json
 
-note that these hosts only differ by ports for demo purposes but in production you would use different dns host names per tenant
-typically there would be a problem logging into 2 different sites using the same hostname "localhost" because the cookies for each tenant would have the same name
-and therefore logging into one tenant would also log in to another
-the Saaskit.MultiTenancy enables middleware branching per tenant so we could use different cookie names per tenant in the cookie middleware
+Note that these hosts only differ by ports for demo purposes but in production you would use different dns host names per tenant.
+
+
+Typically there would be a problem logging into 2 different sites using the same hostname "localhost", because the cookies for each tenant would have the same name and therefore logging into one tenant would also log in to another, ie the cookies would step on each other from each tenant. In this demo I used the [saaskit.MultiTenancy](https://github.com/saaskit/saaskit) which enables middleware branching per tenant so we could use different cookie names per tenant in the cookie middleware. You may or may not need different cookie settings per tenant in production, it depends on the specific needs of your project.
 
 The tenants and users are configured in the simpleauthsettings.json file
-There are 2 tenants configured, read that file to find user names and passwords to login to the demo tenants
+There are 2 example tenants configured, read that file to find user names and passwords to login to the demo tenants
 
 Notes about tenants and this demo.
 
-this demo is just to show that there is a different tenant with different users and themes
+this demo is just to show that there is a different tenant with different users and themes and how this can be easily implemented with SimpleAuth
 
-The "HomeController" in this demo does not produce different content per tenant, this is not a cms but since you could override any of the home 
-views within a theme folder and since the content is directly in the views you can make different content per tenant that way if you want
-by using a different theme per tenant and adding different content in the theme specific views
+The "HomeController" in this demo does not produce different content per tenant. This is not a cms demo but since you could override any of the home views within a theme folder and since the content is directly in the views you can make different content per tenant that way if you want by using a different theme per tenant and adding different content in the theme specific views.
 
 by default views come from below the normal Views folder
 
