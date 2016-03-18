@@ -161,10 +161,10 @@ namespace example.WebApp
                     options.AutomaticAuthenticate = true;
                     options.AutomaticChallenge = true;
                     options.CookieName = $"{ctx.Tenant.Id}.application";
-                    options.Events = new CookieAuthenticationEvents
-                    {
-                        OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-                    };
+                    //options.Events = new CookieAuthenticationEvents
+                    //{
+                    //    OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+                    //};
                 });
 
                 //builder.UseGoogleAuthentication(options =>

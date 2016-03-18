@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNet.Http.Extensions
 @using cloudscribe.Web.SimpleAuth.Extensions
 
 @if (User.Identity.IsAuthenticated)
@@ -15,6 +16,6 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Login" asp-action="Index">Log in</a></li>
+        <li><a asp-controller="Login" asp-action="Index" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">Log in</a></li>
     </ul>
 }

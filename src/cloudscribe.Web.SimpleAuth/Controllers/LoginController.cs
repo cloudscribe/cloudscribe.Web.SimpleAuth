@@ -12,6 +12,7 @@ using cloudscribe.Web.SimpleAuth.Services;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Http.Authentication;
+using Microsoft.AspNet.Http.Extensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
@@ -42,9 +43,10 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
         // GET: /Login/index
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index(string returnUrl = null)
         {
             ViewData["Title"] = "Login";
+            ViewData["ReturnUrl"] = returnUrl;
 
             var model = new LoginViewModel();
 
@@ -52,7 +54,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             {
                 model.RecaptchaSiteKey = signinManager.AuthSettings.RecaptchaPublicKey;
             }
-
+            
             return View(model);
         }
 
@@ -61,11 +63,12 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(LoginViewModel model)
+        public async Task<IActionResult> Index(LoginViewModel model, string returnUrl = null)
         {
             ViewData["Title"] = "Log in";
+            ViewData["ReturnUrl"] = returnUrl;
             
-            if(!string.IsNullOrEmpty(signinManager.AuthSettings.RecaptchaPublicKey))
+            if (!string.IsNullOrEmpty(signinManager.AuthSettings.RecaptchaPublicKey))
             {
                 model.RecaptchaSiteKey = signinManager.AuthSettings.RecaptchaPublicKey;
             }
@@ -115,6 +118,11 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
                 signinManager.AuthSettings.AuthenticationScheme, 
                 claimsPrincipal, 
                 authProperties);
+
+            if(!string.IsNullOrEmpty(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
+            }
             
             return LocalRedirect("/");
         }
