@@ -2,6 +2,8 @@
 
 Simple Authentication for ASP.NET Core - because sometimes less is more
 
+[![Join the chat at https://gitter.im/joeaudette/cloudscribe](https://badges.gitter.im/joeaudette/cloudscribe.svg)](https://gitter.im/joeaudette/cloudscribe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 #### You should not use SimpleAuth if any of these requirements apply to your web application or website project:
 * You need more than a very small number of users to be able to authenticate on the site
 * You need users to be able to self register using a registration page
@@ -112,9 +114,5 @@ In future releases when nuget supports it, we will either include the views in t
 ##### Keep In Touch
 
 If you are interested in hiring me for consulting or other support services related to the cloudscribe set of projects, please send an email to info [at] cloudscribe.com.
-
-If you have questions or just want to be social, say hello in our gitter chat room. I try to monitor that room on a regular basis while I'm working, but if I'm not around you can leave a message.
-
-[![Join the chat at https://gitter.im/joeaudette/cloudscribe](https://badges.gitter.im/joeaudette/cloudscribe.svg)](https://gitter.im/joeaudette/cloudscribe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 I'm also on twitter @cloudscribeweb and @joeaudette
