@@ -30,19 +30,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a asp-controller="Home" asp-action="Index" class="navbar-brand">@(Tenant?.Name ?? "AspNetMvcSample")</a>
+        <a asp-controller="Home" asp-action="Index" class="navbar-brand">@(Tenant?.Name ?? "example.WebApp")</a>
       </div>
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-          <li><a asp-controller="Home" asp-action="About">About</a></li>
-          <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-        </ul>
+        @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapTopNav", filterName = NamedNavigationFilters.TopNav, startingNodeKey = "" })
         @await Html.PartialAsync("_LoginPartial")
       </div>
     </div>
   </div>
   <div class="container body-content">
+      @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapBreadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
     @RenderBody()
     <hr />
     <footer>

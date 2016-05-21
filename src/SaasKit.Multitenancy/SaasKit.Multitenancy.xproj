@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>754228fb-2122-4d86-81eb-774d7e713b9f</ProjectGuid>
-    <RootNamespace>cloudscribe.Web.SimpleAuth</RootNamespace>
+    <ProjectGuid>a5a518c1-da51-4946-8b2a-a690bf144799</ProjectGuid>
+    <RootNamespace>SaasKit.Multitenancy</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
