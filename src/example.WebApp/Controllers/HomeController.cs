@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace example.WebApp.Controllers
 {
@@ -30,7 +30,7 @@ namespace example.WebApp.Controllers
 
         public IActionResult Error()
         {
-            return View("~/Views/Shared/Error.cshtml");
+            return View();
         }
 
         [Authorize(Policy = "AdminPolicy")]
@@ -48,6 +48,5 @@ namespace example.WebApp.Controllers
 
             return View();
         }
-
     }
 }

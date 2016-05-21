@@ -1,32 +1,24 @@
-﻿
-using cloudscribe.Web.SimpleAuth.Services;
-using cloudscribe.Web.Navigation;
-using cloudscribe.Web.Navigation.Caching;
-using cloudscribe.Web.SimpleAuth.Models;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Internal;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc.Razor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.OptionsModel;
-using Microsoft.Extensions.PlatformAbstractions;
-using System.Collections.Generic;
-
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Http;
 
 namespace example.WebApp
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             // you can use whatever file name you like and it is probably a good idea to use a custom file name
@@ -42,9 +34,7 @@ namespace example.WebApp
 
             if (env.IsDevelopment())
             {
-                // This reads the configuration keys from the secret store.
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                // UserSecrets is a configuration source you can use to keep settings secret on your dev machine if needed
                 builder.AddUserSecrets();
             }
 
@@ -53,11 +43,10 @@ namespace example.WebApp
             // so for example in production or in Azure hosting you might use environment variables
             // while on your dev machine using the json file as above
             builder.AddEnvironmentVariables();
-
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -67,29 +56,19 @@ namespace example.WebApp
 
             services.Configure<MultiTenancyOptions>(Configuration.GetSection("MultiTenancy"));
             services.AddMultitenancy<AppTenant, CachingAppTenantResolver>();
-            // Hosting doesn't add IHttpContextAccessor by default
+            
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
-            //services.AddScoped<IUserLookupProvider, DefaultUserLookupProvider>(); // single tenant
-            services.AddScoped<IUserLookupProvider, AppTenantUserLookupProvider>();
-            services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
-            services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
-            //services.AddScoped<IAuthSettingsResolver, DefaultAuthSettingsResolver>();
-            services.AddScoped<IAuthSettingsResolver, AppTenantAuthSettingsResolver>();
-            services.AddScoped<SignInManager, SignInManager>();
+            services.Configure<cloudscribe.Web.SimpleAuth.Models.SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
+            services.AddScoped<cloudscribe.Web.SimpleAuth.Models.IUserLookupProvider, AppTenantUserLookupProvider>();
+            services.Configure<List<cloudscribe.Web.SimpleAuth.Models.SimpleAuthUser>>(Configuration.GetSection("Users"));
+            services.AddScoped<cloudscribe.Web.SimpleAuth.Models.IAuthSettingsResolver, AppTenantAuthSettingsResolver>();
+            services.AddCloudscribeSimpleAuth();
 
 
             // this demo is also using the cloudscribe.Web.Navigation library
             //https://github.com/joeaudette/cloudscribe.Web.Navigation
-            services.TryAddScoped<ITreeCache, MemoryTreeCache>();
-            services.AddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
-            services.AddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
-            services.AddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
-            services.AddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
-            services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
-            
-
+            services.AddCloudscribeNavigation(Configuration);
 
             services.AddMvc();
 
@@ -101,83 +80,44 @@ namespace example.WebApp
 
         }
 
-        
-        // note that the DI can inject whatever you need into this method signature
-        // I added IOptions<SimpleAuthSettings> authSettingsAccessor to the method signature
-        // you can add anything you want as long as you register it in ConfigureServices
-        public void Configure(
-            IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory,
-            IOptions<SimpleAuthSettings> authSettingsAccessor  
-            )
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-               
+                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
             app.UseStaticFiles();
 
             app.UseMultitenancy<AppTenant>();
 
-            // Add cookie-based authentication to the request pipeline
-
-            //SimpleAuthSettings authSettings = authSettingsAccessor.Value;
-
-            //var ApplicationCookie = new CookieAuthenticationOptions
-            //{
-            //    AuthenticationScheme = authSettings.AuthenticationScheme,
-            //    CookieName = authSettings.AuthenticationScheme,
-            //    AutomaticAuthenticate = true,
-            //    AutomaticChallenge = true,
-            //    LoginPath = new PathString("/Login/Index"),
-            //    Events = new CookieAuthenticationEvents
-            //    {
-            //        //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-            //    }
-            //};
-
-            //app.UseCookieAuthentication(ApplicationCookie);
-
             app.UsePerTenant<AppTenant>((ctx, builder) =>
             {
-                builder.UseCookieAuthentication(options =>
-                {
-                    options.AuthenticationScheme = ctx.Tenant.AuthenticationScheme;
-                    options.LoginPath = new PathString("/account/login");
-                    options.AccessDeniedPath = new PathString("/account/forbidden");
-                    options.AutomaticAuthenticate = true;
-                    options.AutomaticChallenge = true;
-                    options.CookieName = $"{ctx.Tenant.Id}.application";
-                    //options.Events = new CookieAuthenticationEvents
+                var options = new CookieAuthenticationOptions();
+                options.AuthenticationScheme = ctx.Tenant.AuthenticationScheme;
+                options.LoginPath = new PathString("/account/login");
+                options.AccessDeniedPath = new PathString("/account/forbidden");
+                options.AutomaticAuthenticate = true;
+                options.AutomaticChallenge = true;
+                options.CookieName = $"{ctx.Tenant.Id}.application";
+                //options.Events = new CookieAuthenticationEvents
                     //{
                     //    OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
                     //};
-                });
+                builder.UseCookieAuthentication(options);
 
-                //builder.UseGoogleAuthentication(options =>
-                //{
-                //    options.AuthenticationScheme = "Google";
-                //    options.SignInScheme = "Cookies";
-
-                //    options.ClientId = Configuration[$"{ctx.Tenant.Id}:GoogleClientId"];
-                //    options.ClientSecret = Configuration[$"{ctx.Tenant.Id}:GoogleClientSecret"];
-                //});
+               
             });
 
-            // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -185,6 +125,7 @@ namespace example.WebApp
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
 
         private void ConfigureAuthPolicy(IServiceCollection services)
         {
@@ -199,7 +140,7 @@ namespace example.WebApp
                 //
 
                 // see the simpleauthsettings.json file to understand how to configure a users role membership
-                
+
                 options.AddPolicy(
                     "AdminPolicy",
                     authBuilder =>
@@ -221,7 +162,5 @@ namespace example.WebApp
             });
 
         }
-
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

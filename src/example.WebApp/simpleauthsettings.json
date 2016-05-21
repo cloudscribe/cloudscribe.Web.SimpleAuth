@@ -16,7 +16,7 @@
                 "Hostnames": [
                     "localhost:60000",
                     "tenant1.local:60000",
-                    "localhost:60011"
+                    "localhost:54912"
                 ],
                 "Theme": "Cerulean",
                 "EnablePasswordHasherUi": "true",
