@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Http;
 
 namespace example.WebApp
@@ -70,14 +69,12 @@ namespace example.WebApp
             //https://github.com/joeaudette/cloudscribe.Web.Navigation
             services.AddCloudscribeNavigation(Configuration);
 
-            services.AddMvc();
-
-            services.Configure<RazorViewEngineOptions>(options =>
+            services.AddMvc()
+                .AddRazorOptions(options =>
             {
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
             });
-
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
