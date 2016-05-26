@@ -72,6 +72,7 @@ namespace example.WebApp
             services.AddMvc()
                 .AddRazorOptions(options =>
             {
+                options.AddEmbeddedViewsForSimpleAuth();
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
             });
             
