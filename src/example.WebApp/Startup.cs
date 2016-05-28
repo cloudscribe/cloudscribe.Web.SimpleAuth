@@ -67,7 +67,7 @@ namespace example.WebApp
 
             // this demo is also using the cloudscribe.Web.Navigation library
             //https://github.com/joeaudette/cloudscribe.Web.Navigation
-            services.AddCloudscribeNavigation(Configuration);
+            services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
             services.AddMvc()
                 .AddRazorOptions(options =>
