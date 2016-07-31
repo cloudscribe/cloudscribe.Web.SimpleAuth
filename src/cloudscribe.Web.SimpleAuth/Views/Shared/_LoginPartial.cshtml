@@ -7,7 +7,7 @@
     <form asp-controller="Login" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-controller="Account" asp-action="Index">Hello @User.GetDisplayName()!</a>
+                <a href="#">Hello @User.GetDisplayName()!</a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
