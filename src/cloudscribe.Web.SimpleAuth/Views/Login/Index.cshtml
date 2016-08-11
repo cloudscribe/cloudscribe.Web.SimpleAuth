@@ -17,8 +17,6 @@
     <div class="col-md-12">
         <section>
             <form asp-controller="Login" asp-action="Index" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
-                <h4>Log in</h4>
-                <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="UserName" class="col-md-2 control-label"></label>
