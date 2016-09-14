@@ -1,5 +1,5 @@
 ﻿{
-    "version": "1.0.2-rc201607029",
+    "version": "1.0.2-rc20160914",
     "description": "simple, no database required authentication for ASP.NET Core",
     "authors": [ "Joe Audette" ],
     "packOptions": {
@@ -19,14 +19,14 @@
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
-        "Microsoft.AspNetCore.Mvc": "1.0.0",
-        "Microsoft.AspNetCore.Identity": "1.0.0",
-        "Microsoft.Extensions.Options": "1.0.0",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-        "Microsoft.AspNetCore.Mvc.Razor": "1.0.0",
-        "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-        "Microsoft.Extensions.DependencyInjection": "1.0.0"
+        "Microsoft.AspNetCore.Authentication.Cookies": "1.0.*",
+        "Microsoft.AspNetCore.Mvc": "1.0.*",
+        "Microsoft.AspNetCore.Identity": "1.0.*",
+        "Microsoft.Extensions.Options": "1.0.*",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.*",
+        "Microsoft.AspNetCore.Mvc.Razor": "1.0.*",
+        "Microsoft.Extensions.FileProviders.Embedded": "1.0.*",
+        "Microsoft.Extensions.DependencyInjection": "1.0.*"
     },
 
     "frameworks": {
