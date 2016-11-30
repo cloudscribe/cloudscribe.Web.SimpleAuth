@@ -20,18 +20,22 @@
     "Microsoft.Extensions.Logging.Console": "1.1.*",
     "Microsoft.Extensions.Logging.Debug": "1.1.*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "Microsoft.VisualStudio.Web.CodeGeneration.Tools": "1.1.0-preview4-final",
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": "1.1.0-preview4-final",
+    
     "cloudscribe.Web.Navigation": "1.1-*",
     "cloudscribe.Web.Pagination": "1.1-*",
     "cloudscribe.Web.SimpleAuth": "1.1-*",
-    "SaasKit.Multitenancy": "1.1.*",
-    "BundlerMinifier.Core": "2.2.306"
+    "SaasKit.Multitenancy": "1.1.*"
+    
   },
 
-    "tools": {
-        
-    },
+  "tools": {
+    "BundlerMinifier.Core": "2.2.306",
+    "Microsoft.Extensions.SecretManager.Tools": { "version": "1.1.0-preview4-final" },
+    "Microsoft.AspNetCore.Razor.Tools": { "version": "1.1.0-preview4-final" },
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": { "version": "1.1.0-preview4-final" },
+    "Microsoft.AspNetCore.Mvc.Razor.ViewCompilation.Tools": { "version": "1.1.0-preview4-final" },
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
+  },
 
     "frameworks": {
         "netcoreapp1.1": {
