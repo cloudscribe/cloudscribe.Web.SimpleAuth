@@ -1,5 +1,8 @@
 ﻿#Multi Tenant Demo instructions
 
+Note these instructions are not up to date and the startup code in this example is a bit different than it would typically be with a new project because this demo was created during the rc1 timeframe.
+A better sample can be found here: https://github.com/joeaudette/cloudscribe.StarterKits/tree/master/SimpleContent-SimpleAuth-nodb-multitenant/src/WebApp
+
 in windows explorer control-shift-right click the project folder "multiTenant.WebApp" and choose "open command windows here"
 
 you can test a simple tenant using the normal web command ie

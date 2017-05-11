@@ -12,19 +12,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="cloudscribe.Web.SimpleAuth" Version="1.1.0" />
+    <PackageReference Include="cloudscribe.Web.SimpleAuth" Version="1.1.*" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
-	<PackageReference Include="Microsoft.Extensions.OptionsModel" Version="1.0.0-rc1-final" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.*" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.*" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +43,5 @@
     <Exec Command="gulp min" />
   </Target>
 
-  <ProjectExtensions><VisualStudio><UserProperties simpleauthsettings_1json__JSONSchema="http://json.schemastore.org/band-manifest" /></VisualStudio></ProjectExtensions>
 
 </Project>

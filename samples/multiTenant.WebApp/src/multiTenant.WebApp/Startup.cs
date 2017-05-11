@@ -85,9 +85,7 @@ namespace multiTenant.WebApp
 
 
             }
-
-            //app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
-
+            
             app.UseStaticFiles();
 
             app.UseMultitenancy<AppTenant>();
@@ -100,11 +98,7 @@ namespace multiTenant.WebApp
                     AccessDeniedPath = new PathString("/"),
                     AutomaticAuthenticate = true,
                     AutomaticChallenge = true,
-                    CookieName = $"{ctx.Tenant.Id}.application",
-                    Events = new CookieAuthenticationEvents
-                    {
-                        OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-                    }
+                    CookieName = $"{ctx.Tenant.Id}.application"
                 };
                 builder.UseCookieAuthentication(ApplicationCookie);
             });
