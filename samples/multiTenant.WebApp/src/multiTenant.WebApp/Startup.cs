@@ -1,20 +1,17 @@
-﻿
+﻿using cloudscribe.Web.SimpleAuth.Models;
 using cloudscribe.Web.SimpleAuth.Services;
-using cloudscribe.Web.SimpleAuth.Models;
-using Microsoft.AspNet.Authentication.Cookies;
-using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc.Razor;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
+using System.IO;
+using Microsoft.Extensions.Options;
 
 namespace multiTenant.WebApp
 {
@@ -36,7 +33,7 @@ namespace multiTenant.WebApp
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                builder.AddUserSecrets<Startup>();
             }
 
             builder.AddEnvironmentVariables();
@@ -50,8 +47,8 @@ namespace multiTenant.WebApp
         {
             services.Configure<MultiTenancyOptions>(Configuration.GetSection("MultiTenancy"));
             services.AddMultitenancy<AppTenant, CachingAppTenantResolver>();
-            services.Configure<SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
-            
+            services.AddCloudscribeSimpleAuth();
+
             services.AddScoped<IUserLookupProvider, AppTenantUserLookupProvider>();
             services.Configure<List<SimpleAuthUser>>(Configuration.GetSection("Users"));
             services.AddScoped<IPasswordHasher<SimpleAuthUser>, PasswordHasher<SimpleAuthUser>>();
@@ -70,8 +67,8 @@ namespace multiTenant.WebApp
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
-            IHostingEnvironment env, 
+            IApplicationBuilder app,
+            IHostingEnvironment env,
             ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -81,38 +78,39 @@ namespace multiTenant.WebApp
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
 
-               
+
             }
 
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+            //app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
 
             app.UseMultitenancy<AppTenant>();
             app.UsePerTenant<AppTenant>((ctx, builder) =>
             {
-                builder.UseCookieAuthentication(options =>
+                var ApplicationCookie = new CookieAuthenticationOptions
                 {
-                    options.AuthenticationScheme = ctx.Tenant.AuthenticationScheme;
-                    options.LoginPath = new PathString("/account/login");
-                    options.AccessDeniedPath = new PathString("/account/forbidden");
-                    options.AutomaticAuthenticate = true;
-                    options.AutomaticChallenge = true;
-                    options.CookieName = $"{ctx.Tenant.Id}.application";
-                    options.Events = new CookieAuthenticationEvents
+                    AuthenticationScheme = ctx.Tenant.AuthenticationScheme,
+                    LoginPath = new PathString("/login/index"),
+                    AccessDeniedPath = new PathString("/"),
+                    AutomaticAuthenticate = true,
+                    AutomaticChallenge = true,
+                    CookieName = $"{ctx.Tenant.Id}.application",
+                    Events = new CookieAuthenticationEvents
                     {
                         OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-                    };
-                });
-
-                
+                    }
+                };
+                builder.UseCookieAuthentication(ApplicationCookie);
             });
+
+
+
 
             app.UseMvc(routes =>
             {
@@ -123,6 +121,16 @@ namespace multiTenant.WebApp
         }
 
         // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
     }
 }
