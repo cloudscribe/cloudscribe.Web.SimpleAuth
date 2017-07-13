@@ -103,7 +103,7 @@ Visual Studio 2017 should automatically pull it in from [nuget.org](https://www.
 
 - [] 8 study the example.WebApp for examples of how to configure authorization policies with roles that you configure for users in the simpleauthsettings.json file
 
-- [] 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
+- [] 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cshtml in the Views/Shared folder of cloudscribe.Web.SimpleAuth, you should add that to your [_Layout.cshtml](https://github.com/joeaudette/cloudscribe.Web.SimpleAuth/blob/master/src/example.WebApp/Views/Shared/_Layout.cshtml)
 
 The views are also included as embedded resources so if you don't need to customize them you can add them like this:
 
