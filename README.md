@@ -70,8 +70,8 @@ Visual Studio 2017 should automatically pull it in from [nuget.org](https://www.
                 ILoggerFactory loggerFactory,
                 IOptions<SimpleAuthSettings> authSettingsAccessor  
                 )
-	 {
-	    ...
+	     {
+	        ...
 		
 		// Add cookie-based authentication to the request pipeline
 
