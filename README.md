@@ -14,6 +14,8 @@ If either of the above are true of your project then you should probably look at
 * [IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
 * [cloudscribe.Core](https://github.com/joeaudette/cloudscribe) - one of my other projects :-D  
 
+See also the [Complete List of cloudscribe Libraries](https://www.cloudscribe.com/docs/complete-list-of-cloudscribe-libraries)
+
 #### So what scenarios is SimpleAuth good for?
 * Personal sites or blogs where only one or a few people need to login
 * Brochure sites where only one or a few people need to login
