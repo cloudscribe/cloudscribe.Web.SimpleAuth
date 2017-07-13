@@ -32,7 +32,7 @@ If either of the above are true of your project then you should probably look at
 * Very simple implementation without many moving parts
 
 
-#### Installation - Currently supports RC1 of ASP.NET Core
+#### Installation
 
 The example.WebApp project in this solution is the best guide to setup and configuration, I've added some comments in the Startup.cs that should be useful, and if you have any trouble setting it up in your app, you can compare against the demo to see what is missing or different. Note that the example.WebApp also uses cloudscribe.Navigation for the menu, and you may also want to use it.
 
@@ -42,7 +42,7 @@ The basic installaiton steps are as follows:
 
         "cloudscribe.Web.SimpleAuth": "1.0.0-*
 	
-Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.nuget.org/packages/cloudscribe.Web.SimpleAuth), but you can also run dnu restore from the command line in the solution or project folder.
+Visual Studio 2017 should automatically pull it in from [nuget.org](https://www.nuget.org/packages/cloudscribe.Web.SimpleAuth), but you can also run dotnet restore --no-cache from the command line in the solution or project folder.
 
 - [] 2 copy the simpleauthsettings.json file from the example.WebApp project into your own and use it to configure settings and users
 
@@ -99,13 +99,20 @@ Visual Studio 2015 should automatically pull it in from [nuget.org](https://www.
 	
 	
 		
-- [] 7 copy the Views/Login folder from the example.WebApp project into your own project
+- [] 7 copy the [Views/Login](https://github.com/joeaudette/cloudscribe.Web.SimpleAuth/tree/master/src/cloudscribe.Web.SimpleAuth/Views) folder from the cloudscribe.SimpleAuth.Web project into your own project
 
 - [] 8 study the example.WebApp for examples of how to configure authorization policies with roles that you configure for users in the simpleauthsettings.json file
 
 - [] 9 you will of course have to provide a link in your app to the login page, look at the _LoginPartial.cs in the Views/Shared folder of example.WebApp
 
-In future releases when nuget supports it, we will either include the views in the package or create a separate package for views, but for now you just have to copy them from the example site.
+The views are also included as embedded resources so if you don't need to customize them you can add them like this:
+
+    services.AddMvc()
+            .AddRazorOptions(options =>
+            {
+                options.AddEmbeddedViewsForSimpleAuth();
+               
+            });
 
 
 ![Screenshot](/images/screenshot-simleauth-with-recaptcha.jpg?raw=true)
