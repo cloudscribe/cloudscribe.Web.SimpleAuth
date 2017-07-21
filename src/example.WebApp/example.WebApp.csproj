@@ -7,8 +7,6 @@
     <OutputType>Exe</OutputType>
     <PackageId>example.WebApp</PackageId>
     <UserSecretsId>aspnet-example.WebApp-c572acd7-734e-4ecf-9ecf-856932c7c49a</UserSecretsId>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,34 +20,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
-    <PackageReference Include="cloudscribe.Web.Navigation" Version="1.1-*" />
-    <PackageReference Include="cloudscribe.Web.Pagination" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.*" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.*" />
+    <PackageReference Include="cloudscribe.Web.Navigation" Version="1.2.*" />
+    <PackageReference Include="cloudscribe.Web.Pagination" Version="1.1.*" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
   </ItemGroup>
 
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="bower install" />
-    <Exec Command="dotnet bundle" />
-  </Target>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.2.301" />
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.*" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.*" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.*" />
   </ItemGroup>
 
 </Project>
