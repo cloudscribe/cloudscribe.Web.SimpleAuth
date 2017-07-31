@@ -31,11 +31,6 @@ namespace example.WebApp
             // remember last config source added wins if it has the same settings
             //builder.AddJsonFile("appsettings.local.overrides.json", optional: true);
 
-            if (env.IsDevelopment())
-            {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
-            }
 
             // note that the order in which configuration sources are added is important
             // if the same settings exist in a source registered later, the later settings win
@@ -61,7 +56,19 @@ namespace example.WebApp
             services.Configure<cloudscribe.Web.SimpleAuth.Models.SimpleAuthSettings>(Configuration.GetSection("SimpleAuthSettings"));
             services.AddScoped<cloudscribe.Web.SimpleAuth.Models.IUserLookupProvider, AppTenantUserLookupProvider>();
             services.Configure<List<cloudscribe.Web.SimpleAuth.Models.SimpleAuthUser>>(Configuration.GetSection("Users"));
-            services.AddScoped<cloudscribe.Web.SimpleAuth.Models.IAuthSettingsResolver, AppTenantAuthSettingsResolver>();
+            //services.AddScoped<cloudscribe.Web.SimpleAuth.Models.IAuthSettingsResolver, AppTenantAuthSettingsResolver>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "application";
+                options.DefaultChallengeScheme = "application";
+            })
+                .AddCookieAuthentication("application", options =>
+                {
+                    options.LoginPath = new PathString("/account/login");
+
+                });
+
             services.AddCloudscribeSimpleAuth();
 
 
@@ -87,7 +94,7 @@ namespace example.WebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                //app.UseBrowserLink();
             }
             else
             {
@@ -98,23 +105,25 @@ namespace example.WebApp
 
             app.UseMultitenancy<AppTenant>();
 
-            app.UsePerTenant<AppTenant>((ctx, builder) =>
-            {
-                var options = new CookieAuthenticationOptions();
-                options.AuthenticationScheme = ctx.Tenant.AuthenticationScheme;
-                options.LoginPath = new PathString("/account/login");
-                options.AccessDeniedPath = new PathString("/account/forbidden");
-                options.AutomaticAuthenticate = true;
-                options.AutomaticChallenge = true;
-                options.CookieName = $"{ctx.Tenant.Id}.application";
-                //options.Events = new CookieAuthenticationEvents
-                    //{
-                    //    OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-                    //};
-                builder.UseCookieAuthentication(options);
+            app.UseAuthentication();
+
+            //app.UsePerTenant<AppTenant>((ctx, builder) =>
+            //{
+            //    var options = new CookieAuthenticationOptions();
+            //    options.AuthenticationScheme = ctx.Tenant.AuthenticationScheme;
+            //    options.LoginPath = new PathString("/account/login");
+            //    options.AccessDeniedPath = new PathString("/account/forbidden");
+            //    options.AutomaticAuthenticate = true;
+            //    options.AutomaticChallenge = true;
+            //    options.CookieName = $"{ctx.Tenant.Id}.application";
+            //    //options.Events = new CookieAuthenticationEvents
+            //        //{
+            //        //    OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+            //        //};
+            //    builder.UseCookieAuthentication(options);
 
                
-            });
+            //});
 
             app.UseMvc(routes =>
             {

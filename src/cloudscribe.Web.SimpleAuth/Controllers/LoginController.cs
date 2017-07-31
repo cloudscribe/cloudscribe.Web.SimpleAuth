@@ -11,7 +11,6 @@ using cloudscribe.Web.SimpleAuth.ViewModels;
 using cloudscribe.Web.SimpleAuth.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Authentication;
 
 namespace cloudscribe.Web.SimpleAuth.Controllers
 {
@@ -114,7 +113,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
             var claimsPrincipal = signinManager.GetClaimsPrincipal(
                 authUser);
             
-            await HttpContext.Authentication.SignInAsync(
+            await HttpContext.SignInAsync(
                 signinManager.AuthSettings.AuthenticationScheme, 
                 claimsPrincipal, 
                 authProperties);
@@ -170,7 +169,7 @@ namespace cloudscribe.Web.SimpleAuth.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
-            await HttpContext.Authentication.SignOutAsync(signinManager.AuthSettings.AuthenticationScheme);
+            await HttpContext.SignOutAsync(signinManager.AuthSettings.AuthenticationScheme);
  
             return LocalRedirect("/");
         }
