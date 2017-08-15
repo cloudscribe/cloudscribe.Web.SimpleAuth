@@ -20,27 +20,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0-*" />
-    <PackageReference Include="cloudscribe.Web.Navigation" Version="2.0.0-*" />
-    <PackageReference Include="cloudscribe.Web.Pagination" Version="2.0.0-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.*" />
+    <PackageReference Include="cloudscribe.Web.Navigation" Version="2.0.*" />
+    <PackageReference Include="cloudscribe.Web.Pagination" Version="2.0.*" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
   </ItemGroup>
 
 
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.*" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0-*" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.*" />
   </ItemGroup>
 
 </Project>

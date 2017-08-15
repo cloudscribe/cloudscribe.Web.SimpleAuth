@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>simple, no database required authentication for ASP.NET Core</Description>
     <VersionPrefix>2.0.0</VersionPrefix>
-	<VersionSuffix>preview20170725</VersionSuffix>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.SimpleAuth</AssemblyName>
@@ -22,14 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.*" />
   </ItemGroup>
 
 </Project>
