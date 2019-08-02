@@ -8,7 +8,6 @@ Simple Authentication for ASP.NET Core - because sometimes less is more
 | ------------- | ------------- |
 | [![Build status](https://ci.appveyor.com/api/projects/status/fqy94xg8y5e2px4l/branch/master?svg=true)](https://ci.appveyor.com/project/joeaudette/cloudscribe-web-simpleauth/branch/master)  | [![Build Status](https://travis-ci.org/cloudscribe/cloudscribe.Web.SimpleAuth.svg?branch=master)](https://travis-ci.org/cloudscribe/cloudscribe.Web.SimpleAuth)  |
 
-[![Join the chat at https://gitter.im/joeaudette/cloudscribe](https://badges.gitter.im/joeaudette/cloudscribe.svg)](https://gitter.im/joeaudette/cloudscribe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 #### You should not use SimpleAuth if any of these requirements apply to your web application or website project:
 * You need more than a very small number of users to be able to authenticate on the site
