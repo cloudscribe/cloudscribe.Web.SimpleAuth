@@ -49,7 +49,7 @@ The basic installaiton steps are as follows:
 
         "cloudscribe.Web.SimpleAuth": "1.0.0-*
 	
-Visual Studio 2017 should automatically pull it in from [nuget.org](https://www.nuget.org/packages/cloudscribe.Web.SimpleAuth), but you can also run dotnet restore --no-cache from the command line in the solution or project folder.
+Visual Studio should automatically pull it in from [nuget.org](https://www.nuget.org/packages/cloudscribe.Web.SimpleAuth), but you can also run dotnet restore --no-cache from the command line in the solution or project folder.
 
 - [] 2 copy the simpleauthsettings.json file from the example.WebApp project into your own and use it to configure settings and users
 
@@ -127,6 +127,6 @@ The views are also included as embedded resources so if you don't need to custom
 
 ##### Keep In Touch
 
-If you are interested in hiring me for consulting or other support services related to the cloudscribe set of projects, please send an email to info [at] cloudscribe.com.
+If you are interested in hiring us for consulting or other support services related to the cloudscribe set of projects, please send an email to info [at] cloudscribe.com.
 
-I'm also on twitter @cloudscribeweb and @joeaudette
+We're also on twitter @cloudscribeweb
